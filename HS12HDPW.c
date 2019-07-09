@@ -40,8 +40,8 @@ void hs12hdpw(){
 
             char tuple[20];
             scanf("%s",&tuple);
-            printf(tuple);
-            printf("\n");
+            //printf(tuple);
+            //printf("\n");
             int len = strlen(tuple);
             int blue = 0;
             int green = 0;
@@ -49,45 +49,32 @@ void hs12hdpw(){
             for(int i = 0; i < len;i++){
                 int temp = tuple[i];
                 decToBinary(temp,binary);
-                int noZeros = 7;
 
-                for(int j = 0; j < 7; j++){
-                    if(binary[j] == 0){
-                        noZeros--;
-                    }
-                    else{
-                        break;
-                    }
-                }
-                printf("noZeroes %d \n",noZeros);
                 double doubleI = (double) i;
                 int power = (int) pow(2.0, doubleI);
 
                 for(int b =0;b < 7;b++ ){
-                    printf("%d",binary[b]);
+                    //printf("%d",binary[b]);
                 }
-                printf("\n");
+                //printf("\n");
 
-                if(i >= noZeros){
-                    blue+=binary[  (6-i)  + noZeros ] * power;
-                    printf("blue: %d \t",(6-i)  + noZeros);
+
+                // blue just jumps to the left is seems
+                blue+=binary[  (6-i) ] * power;
+                //printf("blue: %d \t",(6-i) );
+
+
+                if(  i < 3 ){
+                    green += binary[ (6-i-3) ] * power;
+                    //printf("green: %d \n",(6-i-3));
                 }
                 else{
-                    blue+=binary[  (6-i) ] * power;
-                    printf("blue: %d \t",(6-i) );
-                }
-
-                if( (i+3) >= (noZeros)  ){
-                    green += binary[ (6-i-3) + noZeros] * power;
-                    printf("green: %d \n",(6-i-3)  + noZeros );
-                }
-                else{
-                    green += binary[ (6-i-3)] * power;
-                    printf("green: %d \n",(6-i-3));
+                    green += binary[ (6-i+3)] * power;
+                    //printf("green: %d \n",(6-i+3));
                 }
             }
-            printf("%d ",blue);
-            printf("%d \n",green);
+            //printf("%d ",blue);
+            //printf("%d \n",green);
             code[codeCounter] = blue;
             codeCounter++;
             code[codeCounter] = green;
@@ -98,15 +85,14 @@ void hs12hdpw(){
 
         char word[65];
         scanf("%s",&word);
-        printf(word);
-        printf("\n");
+        //printf(word);
+        //printf("\n");
         int newCodeCounter = 0;
         while(newCodeCounter < codeCounter){
             printf("%c",word[code[newCodeCounter]]);
             newCodeCounter++;
         }
         printf("\n");
-
 
     }
 }
