@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include "HS12HDPW.c"
+#include "FCTRL2.c"
 int main() {
 
-    hs12hdpw();
-
+    fctrl2();
     return 0;
 }
