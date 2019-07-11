@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include "STRHH.c"
+#include "HS12HDPW.c"
 int main() {
 
-    strhh();
+    hs12hdpw();
+
     return 0;
 }
