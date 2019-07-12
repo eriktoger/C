@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "FCTRL2.c"
+#include "HS12MBR.c"
 int main() {
 
-    fctrl2();
+    hs12mbr();
     return 0;
 }
