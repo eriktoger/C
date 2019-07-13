@@ -323,7 +323,7 @@ void arith() {
             // all singular line up, and tenth and so on.
             //size-1 is the place of singular?
 
-            int size = strlen(finalAnswer) - leadingZeros+1;
+            int size = strlen(finalAnswer) - leadingZeros;
 
             printf("%d  %s",size, answerMult[0]);
             int spaceBefore = 0;
@@ -334,6 +334,7 @@ void arith() {
             int spaceSecondNumber = size - strlen(secondNumber)-1;
             int spaceDashes;
             int dashes;
+            //this is not correct, it is also deteremend by first row under -----
             if(strlen(firstNumber) > strlen(secondNumber) +1){
                 spaceDashes = spaceFirstNumber;
                 dashes = strlen(firstNumber);
@@ -381,7 +382,10 @@ void arith() {
                             printf("%c", answerMult[i][j]);
                         }
                         else{
-                            if(j!=lengthFirst ){
+                            //the && i!=0 is to fix the last one in:
+                            //43171474259419373361224801864268585722148180*1274546860662536794379192230320448893
+                            //55024066987516477905176240509111638094896888379559369190611653313979389862964740
+                            if(j!=lengthFirst && i!=0 ){
                                 printf(" ");
                             }
 
