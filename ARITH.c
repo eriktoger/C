@@ -157,30 +157,68 @@ void arith(){
             printf("\n");
 
 
-
-            /*
-            while( strlen(firstNumber) < nrOfdashes ){
-                firstNumber[strlen(firstNumber)] = ' ';
-            }
-
-            while(strlen(secondNumber) < nrOfdashes ){
-                firstNumber[strlen(secondNumber)] = ' ';
-            }
-
-            while(strlen(answerPlus) < nrOfdashes ){
-                firstNumber[strlen(answerPlus)] = ' ';
-            }
-
-           printf("here should answer be\n");
-           printf("%s\n",firstNumber);
-           printf("%c%s\n",operator,secondNumber);
-           printf("%s\n",dashesArray);
-           printf("%s\n",answerPlus);
-            */
-
         }
         else if(operator == '-' ){
-            char answerMinus[502];
+            char answerMinus[strlen(firstNumber)+1];
+            firstCounter = (int) strlen(firstNumber) - 1;
+            secondCounter = (int) strlen(secondNumber) - 1;
+            int answerCounter = firstCounter;
+            answerMinus[answerCounter + 1] = '\0';
+
+            int diff = firstCounter- secondCounter;
+
+            for(int i = firstCounter; i>=0;i--){
+
+                int first = firstNumber[i];
+
+
+                //this is wrong if diff size, since we dont compensate that secondCounter <
+                // still dont work )=
+                //think the if is wrong since it always pass
+                if(i-diff <= secondCounter){
+                    int second = secondNumber[i-diff];
+                    int tempAnswer = first - second;
+                    if(tempAnswer < 0){
+                        answerMinus[i-1] = answerMinus[i-1] -1;
+                        tempAnswer+=10;
+                    }
+                    answerMinus[i] = (tempAnswer + ZERO_CHAR);
+
+                    printf("%d %d %d %d %c\n",first,second,tempAnswer,tempAnswer + ZERO_CHAR ,answerMinus[i]);
+                }
+                else{
+                    answerMinus[i] =first + ZERO_CHAR;
+                }
+            }
+
+            printf("\nhere should answer be\n");
+
+            // first can only be one less
+            if(strlen(firstNumber) == strlen(secondNumber)){
+                printf(" ");
+            }
+
+            printf("%s\n",firstNumber);
+            printf("%c%s\n",operator,secondNumber);
+            int lengthMinus = strlen(firstNumber) > strlen(secondNumber) + 1 ? strlen(firstNumber) : strlen(secondNumber) + 1;
+            while(lengthMinus--){
+                printf("-");
+            }
+            printf("\n");
+            int nonZero =0;
+            for(int i= 0; i< strlen(answerMinus);i++){
+                if(!nonZero){
+                    if(answerMinus[i]!= '0'){
+                        nonZero = 1;
+                    }
+                    printf(" ");
+                }
+                if(nonZero){
+                    printf("%c",answerMinus[i]);
+                }
+
+            }
+
         }
         else{ // operator == *
 
