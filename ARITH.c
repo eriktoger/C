@@ -171,54 +171,38 @@ void arith(){
 
 
             int diff = firstCounter- secondCounter;
-            int reminder = 0;
-            int lastReminder =0;
-
-            for(int i = firstCounter; i>=0;i--){
-
-                int first = firstNumber[i];
 
 
-                //this is wrong if diff size, since we dont compensate that secondCounter <
-                // still dont work )=
-                //think the if is wrong since it always pass
-                if(i-diff >= 0){
-                    int second = secondNumber[i-diff];
-                    int tempAnswer = first - second;
-                    if(tempAnswer < 0){
-                        int back =0;
-                        while(1){
-                            printf("%s\n",answerMinus);
-                            answerMinus[i-1-back] = answerMinus[i-1-back] - 1;
-                            if(answerMinus[i-1-back] == '/'){
-                                answerMinus[i-1-back] = '9';
-                            }
-                            else{
-                                break;
-                            }
+            for(int i = (int) strlen(answerMinus)-1; i>=0;i--){
 
-                            back++;
-                        }
-                        reminder = 1;
-                        tempAnswer+=10;
-                    }
-                    else{
-                        reminder = 0;
-                    }
-                    answerMinus[i] -= tempAnswer;
+                answerMinus[i];
+
+                if(i-diff >=0) {
+                    printf("i: %d  %d %c\n",i,secondNumber[i-diff],secondNumber[i-diff]);
+                    answerMinus[i] -= (secondNumber[i-diff] - ZERO_CHAR);
+                    printf("%d\n",answerMinus[i]);
+
+                   if(answerMinus[i] <  ZERO_CHAR){
+                       answerMinus[i] += 10;
+                       int back = 0;
+                       while(1){
+                           answerMinus[i-1-back]-=1;
+                           if(answerMinus[i-1-back] == '/'){
+                               answerMinus[i-1-back] = '9';
+                               back++;
+                           }
+                           else {
+                               break;
+                           }
 
 
-                    printf("%d %d %d %d %c\n",first,second,tempAnswer,tempAnswer + ZERO_CHAR ,answerMinus[i]);
+                       }
+                   }
+
+
                 }
-                else{
-                    printf("%d\n", answerMinus[i]);
-                    answerMinus[i]+=first -ZERO_CHAR;
-                }
-                if(answerMinus[i] == '/'){
-                    answerMinus[i] = '0';
-                    reminder =1;
-                }
-                lastReminder = reminder;
+
+
             }
 
             printf("\nhere should answer be\n");
@@ -229,12 +213,20 @@ void arith(){
             }
 
             printf("%s\n",firstNumber);
+
+            diff--;
+            while(diff-- >0){
+                printf(" ");
+
+            }
             printf("%c%s\n",operator,secondNumber);
             int lengthMinus = strlen(firstNumber) > strlen(secondNumber) + 1 ? strlen(firstNumber) : strlen(secondNumber) + 1;
             while(lengthMinus--){
                 printf("-");
             }
             printf("\n");
+            //printf("%s\n",answerMinus);
+
             int nonZero =0;
             for(int i= 0; i< strlen(answerMinus);i++){
                 if(!nonZero){
@@ -251,6 +243,7 @@ void arith(){
                 }
 
             }
+
 
         }
         else{ // operator == *
