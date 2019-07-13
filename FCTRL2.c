@@ -62,6 +62,7 @@ void fctrl2(){
         // printing the number but not leading 0s
         int firstNonZero =0;
         for(int i = (DIGITS-1);i >= 0;i--){
+
             if(!firstNonZero){
                 if(answer[i] != 0){
                     firstNonZero = 1;

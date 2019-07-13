@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "HS12MBR.c"
+#include "ARITH.c"
 int main() {
 
-    hs12mbr();
+    arith();
     return 0;
 }
