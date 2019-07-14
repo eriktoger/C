@@ -9,46 +9,38 @@
 #include <memory.h>
 #include <stdlib.h>
 const int ZERO_CHAR = 48;
+const char STRING_END = '\0';
+const char SPACE = ' ';
+const char DASH = '-';
+const char PLUS = '+';
+const char MINUS = '-';
+const char MULTI = '*';
+const int QUESTION_LIMIT = 1002;
+const int FIRST_LIMIT = 501;
+const int SECOND_LIMIT = 501;
+
+
+void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNumber,char *operator,
+int *firstCounter,int *secondCounter);
+
 void arith() {
     int testCases;
     scanf("%d", &testCases);
 
     while (testCases--) {
-        char twoNumbersAndOp[1002];
+        char twoNumbersAndOp[QUESTION_LIMIT];
 
         scanf("%s", twoNumbersAndOp);
 
-        char firstNumber[501];
-        int firstCounter = 0;
-        char secondNumber[501];
-        int secondCounter = 0;
+        char firstNumber[FIRST_LIMIT];
+
+        char secondNumber[SECOND_LIMIT];
         char operator = '.';
-        int charFound = 0;
 
-        for (int i = 0; i < strlen(twoNumbersAndOp); i++) {
+        int firstCounter = 0;
+        int secondCounter = 0;
 
-            if (twoNumbersAndOp[i] == '+' || twoNumbersAndOp[i] == '-'
-                || twoNumbersAndOp[i] == '*') {
-                operator = twoNumbersAndOp[i];
-                charFound = 1;
-            } else {
-                if (charFound) {
-                    secondNumber[secondCounter] = twoNumbersAndOp[i];
-                    secondCounter++;
-                } else {
-                    firstNumber[firstCounter] = twoNumbersAndOp[i];
-                    firstCounter++;
-                }
-
-            }
-        }
-
-        firstNumber[firstCounter] = '\0';
-        secondNumber[secondCounter] = '\0';
-
-        //printf("%s\n", firstNumber);
-        //printf("%c\n", operator);
-        //printf("%s\n", secondNumber);
+        splitToFirstSecondOp(&twoNumbersAndOp[0],&firstNumber[0],&secondNumber[0],&operator,&firstCounter,&secondCounter);
 
         if (operator == '+') {
             //printf("inside +\n");
@@ -513,4 +505,31 @@ void arith() {
         }
 
     }
+}
+
+void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNumber,char *operator,
+                          int *firstCounter,int *secondCounter){
+
+    int charFound = 0;
+
+    for (int i = 0; i < strlen(twoNumbersAndOp); i++) {
+
+        if ( twoNumbersAndOp[i] == '+' || twoNumbersAndOp[i] == '-'
+            || twoNumbersAndOp[i] == '*') {
+            *operator = twoNumbersAndOp[i];
+            charFound = 1;
+        } else {
+            if (charFound) {
+                secondNumber[*secondCounter] = twoNumbersAndOp[i];
+                (*secondCounter)++;
+            } else {
+                firstNumber[*firstCounter] = twoNumbersAndOp[i];
+                (*firstCounter)++;
+            }
+
+        }
+    }
+
+    firstNumber[*firstCounter] = '\0';
+    secondNumber[*secondCounter] = '\0';
 }
