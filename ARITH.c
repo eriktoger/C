@@ -21,15 +21,22 @@ const int FIRST_LIMIT = 501;
 const int SECOND_LIMIT = 501;
 
 
-void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNumber,char *operator,
-int *firstCounter,int *secondCounter);
+void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNumber,char *operator);
 
-void plus(char *firstNumber,char *secondNumber,char operator,int firstCounter,int secondCounter);
-void calculatePlusAnswer(char *answerPlus,char *firstNumber, char *secondNumber, int *leadingDigit, int answerCounter, int firstCounter, int secondCounter);
+void plus(char *firstNumber,char *secondNumber,char operator);
+void calculatePlusAnswer(char *answerPlus,char const *firstNumber, char const *secondNumber, int *leadingDigit, int answerCounter, int firstCounter, int secondCounter);
+void printPlusAnswer(char *answerPlus,char const *firstNumber, char const *secondNumber,int leadingDigit,char operator);
+
+void minus(char *firstNumber,char *secondNumber,char operator);
+void calculateMinusAnswer(char *answerMinus,char const *secondNumber, int diff);
+void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,int diff, char operator);
 
 int arith() {
-    int testCases;
-    scanf("%d", &testCases);
+
+    //should thos be a function?
+    char testCaseString[6];//testcases is said to be 1000
+    scanf("%s", testCaseString);
+    long testCases = strtol(testCaseString,NULL,10);
 
     while (testCases--) {
         char twoNumbersAndOp[QUESTION_LIMIT];
@@ -37,24 +44,20 @@ int arith() {
         scanf("%s", twoNumbersAndOp);
 
         char firstNumber[FIRST_LIMIT];
-
         char secondNumber[SECOND_LIMIT];
         char operator = '.';
 
-        int firstCounter = 0;
-        int secondCounter = 0;
-
-        splitToFirstSecondOp(&twoNumbersAndOp[0],&firstNumber[0],&secondNumber[0],&operator,&firstCounter,&secondCounter);
+        splitToFirstSecondOp(&twoNumbersAndOp[0],&firstNumber[0],&secondNumber[0],&operator);
 
         switch(operator){
             case '+':
-                plus(&firstNumber[0],&secondNumber[0],operator,firstCounter,secondCounter);
+                plus(&firstNumber[0],&secondNumber[0],operator);
                 break;
             case '-':
-                //minus();
+                minus(&firstNumber[0],&secondNumber[0],operator);
                 break;
             case '*':
-                //mulit();
+                //multi();
                 break;
             default: break;
         }
@@ -62,128 +65,7 @@ int arith() {
         if (operator == '+') {
 
 
-
         } else if (operator == '-') {
-
-
-            // wrong! RIGHT!
-            //15455872411634497535421977825106651239480644084748380588260881446569518572081466204353180168303969921-7890872338633996076234547417439118295439292682289813367119952873793237266424653
-            //5395008685556578489773806509669208819687232989738715196756623-64342539302731639
-            char answerMinus[strlen(firstNumber) + 1];
-            firstCounter = (int) strlen(firstNumber) - 1;
-            secondCounter = (int) strlen(secondNumber) - 1;
-            int answerCounter = firstCounter;
-
-            for (int i = 0; i < strlen(firstNumber); i++) {
-                answerMinus[i] = firstNumber[i];
-            }
-            answerMinus[answerCounter + 1] = '\0';
-            //printf("%s\n",answerMinus);
-
-            int diff = firstCounter - secondCounter;
-
-            for (int i = (int) strlen(answerMinus) - 1; i >= 0; i--) {
-
-
-                if (i - diff >= 0) {
-                    //printf("i: %d  %d %c\n",i,secondNumber[i-diff],secondNumber[i-diff]);
-                    answerMinus[i] -= (secondNumber[i - diff] - ZERO_INT);
-                    //printf("%d\n",answerMinus[i]);
-
-                    if (answerMinus[i] < ZERO_INT) {
-                        answerMinus[i] += 10;
-                        int back = 0;
-                        while (1) {
-                            answerMinus[i - 1 - back] -= 1;
-                            if (answerMinus[i - 1 - back] == '/') {
-                                answerMinus[i - 1 - back] = '9';
-                                back++;
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-
-
-                }
-
-
-            }
-
-            //printf("\nhere should answer be\n");
-
-            // first can only be one less
-            if (strlen(firstNumber) == strlen(secondNumber)) {
-                printf(" ");
-            }
-
-            printf("%s\n", firstNumber);
-
-            diff--;
-            while (diff-- > 0) {
-                printf(" ");
-
-            }
-            printf("%c%s\n", operator, secondNumber);
-
-            int answerLength = strlen(answerMinus);
-            //printf("answerL %d\n",answerLength);
-            int minusAnswerLeadingZeros = 1;
-            for(int i = 0; i< strlen(answerMinus);i++ ){
-                if(minusAnswerLeadingZeros){
-                    if (answerMinus[i] == '0'){
-                        answerLength--;
-
-                    }
-                    else{
-                        minusAnswerLeadingZeros = 0;
-                        break;
-                    }
-                }
-            }
-            //printf("answerL %d\n",answerLength);
-
-            if(minusAnswerLeadingZeros){ //only zeros
-                answerLength++;
-            }
-
-            //printf("answerL %d\n",answerLength);
-            int lengthMinus =
-                    answerLength > (strlen(secondNumber) + 1) ? answerLength : strlen(secondNumber) + 1;
-            //printf("lengthMinus %d\n",lengthMinus);
-            int diff2 = lengthMinus - strlen(answerMinus);
-
-            int spaceDashes = strlen(firstNumber)- lengthMinus;
-            while(spaceDashes-->0){
-                printf(" ");
-            }
-
-            while (lengthMinus-->0) {
-                printf("-");
-            }
-            printf("\n");
-
-            //printf("diff2:  %d ",diff2);
-            while (diff2-- > 0) {
-                printf(" ");
-            }
-
-            int nonZero = 0;
-            for (int i = 0; i < strlen(answerMinus); i++) {
-                if (!nonZero) {
-                    if (answerMinus[i] != '0') {
-                        nonZero = 1;
-                    } else {
-                        printf(" ");
-                    }
-
-                }
-                if (nonZero || i == (strlen(answerMinus) - 1)) {
-                    printf("%c", answerMinus[i]);
-                }
-
-            }
-            printf("\n");
 
 
         } else { // operator == *
@@ -423,11 +305,11 @@ int arith() {
     return 0;
 }
 
-void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNumber,char *operator,
-                          int *firstCounter,int *secondCounter){
+void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNumber,char *operator){
 
     int charFound = 0;
-
+    int firstCounter = 0;
+    int secondCounter = 0;
     for (int i = 0; i < strlen(twoNumbersAndOp); i++) {
 
         if ( twoNumbersAndOp[i] == PLUS || twoNumbersAndOp[i] == MINUS
@@ -436,24 +318,24 @@ void splitToFirstSecondOp(char *twoNumbersAndOp,char *firstNumber,char *secondNu
             charFound = 1;
         } else {
             if (charFound) {
-                secondNumber[*secondCounter] = twoNumbersAndOp[i];
-                (*secondCounter)++;
+                secondNumber[secondCounter] = twoNumbersAndOp[i];
+                (secondCounter)++;
             } else {
-                firstNumber[*firstCounter] = twoNumbersAndOp[i];
-                (*firstCounter)++;
+                firstNumber[firstCounter] = twoNumbersAndOp[i];
+                (firstCounter)++;
             }
 
         }
     }
 
-    firstNumber[*firstCounter] = STRING_END;
-    secondNumber[*secondCounter] = STRING_END;
+    firstNumber[firstCounter] = STRING_END;
+    secondNumber[secondCounter] = STRING_END;
 }
 
-void plus(char *firstNumber,char *secondNumber,char operator,int firstCounter,int secondCounter){
+void plus(char *firstNumber,char *secondNumber,char operator){
 
     //setting up anserCounter and answerPlus
-    int answerCounter = strlen(firstNumber) > strlen(secondNumber) ? strlen(firstNumber) : strlen(secondNumber);
+    int answerCounter = strlen(firstNumber) > strlen(secondNumber) ? (int) strlen(firstNumber) : (int) strlen(secondNumber);
     answerCounter++; // one for \0
     answerCounter++; // and one if its bigger eg 99+9 = 108
     char answerPlus[answerCounter];
@@ -463,9 +345,8 @@ void plus(char *firstNumber,char *secondNumber,char operator,int firstCounter,in
     //start with zero in the reminder
     answerPlus[answerCounter] = ZERO_CHAR;
 
-    //reset counters
-    firstCounter = (int) strlen(firstNumber) - 1;
-    secondCounter = (int) strlen(secondNumber) - 1;
+    int firstCounter = (int) strlen(firstNumber) - 1;
+    int secondCounter = (int) strlen(secondNumber) - 1;
 
     int leadingDigit = 1;
 
@@ -474,56 +355,9 @@ void plus(char *firstNumber,char *secondNumber,char operator,int firstCounter,in
 
     printPlusAnswer(&answerPlus[0],&firstNumber[0], &secondNumber[0],leadingDigit,operator);
 
-    int nrOfdashes = 0;
-
-    if ((strlen(answerPlus) - 1 + leadingDigit) > (strlen(secondNumber) + 1)) {
-        nrOfdashes = (strlen(answerPlus) - 1 + leadingDigit);
-    } else {
-        nrOfdashes = (strlen(secondNumber) + 1);
-    }
-
-    char dashesArray[nrOfdashes + 1];
-    for (int i = 0; i < nrOfdashes; i++) {
-        dashesArray[i] = '-';
-    }
-
-    dashesArray[nrOfdashes] = '\0';
-
-    //printf("\nhere should answer be\n");
-
-    int spacesFN = nrOfdashes - strlen(firstNumber);
-    while (spacesFN--) {
-        printf(" ");
-    }
-
-    printf("%s\n", firstNumber);
-
-    int spacesOSN = nrOfdashes - strlen(secondNumber) - 1;
-    while (spacesOSN--) {
-        printf(" ");
-    }
-
-    printf("%c%s\n", operator, secondNumber);
-
-
-    printf("%s\n", dashesArray);
-
-    int spacesANS = nrOfdashes - strlen(answerPlus) + 1 - leadingDigit;
-
-    while (spacesANS--) {
-        printf(" ");
-    }
-    int i = 0;
-    if (answerPlus[0] == '0') {
-        i = 1;
-    }
-    for (; i < strlen(answerPlus); i++) {
-        printf("%c", answerPlus[i]);
-    }
-    printf("\n");
 }
 
-void calculatePlusAnswer(char *answerPlus,char *firstNumber, char *secondNumber, int *leadingDigit, int answerCounter, int firstCounter, int secondCounter){
+void calculatePlusAnswer(char *answerPlus,char const *firstNumber, char const *secondNumber, int *leadingDigit, int answerCounter, int firstCounter, int secondCounter){
     while (firstCounter >= 0 || secondCounter >= 0) {
         int first = ZERO_INT;
         if (firstCounter >= 0) {
@@ -538,11 +372,166 @@ void calculatePlusAnswer(char *answerPlus,char *firstNumber, char *secondNumber,
         }
 
         int tempAnswer = (first - ZERO_INT) + (second - ZERO_INT) + (answerPlus[answerCounter] - ZERO_INT);
-        answerPlus[answerCounter] = (char) tempAnswer % 10 + ZERO_INT;
-        answerPlus[answerCounter - 1] = (char) tempAnswer / 10 + ZERO_INT;
+        answerPlus[answerCounter] = (char) (tempAnswer % 10 + ZERO_INT);
+        answerPlus[answerCounter - 1] = (char) (tempAnswer / 10 + ZERO_INT);
         *leadingDigit = tempAnswer / 10;
         answerCounter--;
     }
 }
 
-void printPlusAnswer(char *answerPlus,char *firstNumber, char *secondNumber,int leadingDigit,char operator);
+void printPlusAnswer(char *answerPlus,char const *firstNumber, char const *secondNumber,int leadingDigit,char operator){
+
+        int nrOfdashes = 0;
+    if ((strlen(answerPlus) - 1 + leadingDigit) > (strlen(secondNumber) + 1)) {
+        nrOfdashes = (int) (strlen(answerPlus) - 1 + leadingDigit);
+    } else {
+        nrOfdashes =(int) (strlen(secondNumber) + 1);
+    }
+
+    char dashesArray[nrOfdashes + 1];
+    for (int i = 0; i < nrOfdashes; i++) {
+        dashesArray[i] = '-';
+    }
+
+    dashesArray[nrOfdashes] = '\0';
+
+    int spacesFN = (int) (nrOfdashes - strlen(firstNumber)) ;
+    while (spacesFN--) {
+        printf(" ");
+    }
+
+    printf("%s\n", firstNumber);
+
+    int spacesOSN = (int) (nrOfdashes - strlen(secondNumber) - 1);
+    while (spacesOSN--) {
+        printf(" ");
+    }
+
+    printf("%c%s\n", operator, secondNumber);
+
+
+    printf("%s\n", dashesArray);
+
+    int spacesANS = (int) (nrOfdashes - strlen(answerPlus) + 1 - leadingDigit);
+
+    while (spacesANS--) {
+        printf(" ");
+    }
+
+    int i = 0;
+    if (answerPlus[0] == '0') {
+        i = 1;
+    }
+    for (; i < strlen(answerPlus); i++) {
+        printf("%c", answerPlus[i]);
+    }
+
+    printf("\n");
+}
+
+void minus(char *firstNumber,char *secondNumber,char operator){
+    char answerMinus[strlen(firstNumber) + 1];
+    int firstCounter = (int) strlen(firstNumber) - 1;
+    int secondCounter = (int) strlen(secondNumber) - 1;
+    int answerCounter = firstCounter;
+
+    for (int i = 0; i < strlen(firstNumber); i++) {
+        answerMinus[i] = firstNumber[i];
+    }
+    answerMinus[answerCounter + 1] = '\0';
+
+    int diff = firstCounter - secondCounter;
+    calculateMinusAnswer(&answerMinus[0],&secondNumber[0],diff);
+
+    printMinusAnswer(&answerMinus[0],&firstNumber[0],&secondNumber[0],diff,operator);
+}
+
+void calculateMinusAnswer(char *answerMinus,char const *secondNumber, int diff){
+    for (int i = (int) strlen(answerMinus) - 1; i >= 0; i--) {
+        if (i - diff >= 0) {
+            answerMinus[i] -= (secondNumber[i - diff] - ZERO_INT);
+
+            if (answerMinus[i] < ZERO_INT) {
+                answerMinus[i] += 10;
+                int back = 0;
+                while (1) {
+                    answerMinus[i - 1 - back] -= 1;
+                    if (answerMinus[i - 1 - back] == '/') {
+                        answerMinus[i - 1 - back] = '9';
+                        back++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+    }
+}
+//should I create printFirst, print opSecond, printAnswer?
+void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,int diff,char operator){
+    // first can only be one less
+    if (strlen(firstNumber) == strlen(secondNumber)) {
+        printf(" ");
+    }
+    printf("%s\n", firstNumber);
+
+    diff--;
+    while (diff-- > 0) {
+        printf(" ");
+
+    }
+    printf("%c%s\n", operator, secondNumber);
+
+    int answerLength =(int) strlen(answerMinus);
+
+    int minusAnswerLeadingZeros = 1;
+    for(int i = 0; i< strlen(answerMinus);i++ ){
+        if (answerMinus[i] == '0'){
+            answerLength--;
+
+        }
+        else{
+            minusAnswerLeadingZeros = 0;
+            break;
+        }
+    }
+
+    if(minusAnswerLeadingZeros){ //only zeros
+        answerLength++;
+    }
+
+    int lengthMinus =
+            answerLength > (strlen(secondNumber) + 1) ? answerLength : (int) (strlen(secondNumber) + 1);
+    int diff2 = (int) (lengthMinus - strlen(answerMinus)) ;
+
+    int spaceDashes = (int) (strlen(firstNumber)- lengthMinus);
+    while(spaceDashes-->0){
+        printf(" ");
+    }
+
+    while (lengthMinus-->0) {
+        printf("-");
+    }
+    printf("\n");
+
+    //printf("diff2:  %d ",diff2);
+    while (diff2-- > 0) {
+        printf(" ");
+    }
+
+    int nonZero = 0;
+    for (int i = 0; i < strlen(answerMinus); i++) {
+        if (!nonZero) {
+            if (answerMinus[i] != '0') {
+                nonZero = 1;
+            } else {
+                printf(" ");
+            }
+        }
+        if (nonZero || i == (strlen(answerMinus) - 1)) {
+            printf("%c", answerMinus[i]);
+        }
+    }
+    printf("\n");
+}
