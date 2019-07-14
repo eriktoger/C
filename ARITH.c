@@ -31,6 +31,10 @@ void minus(char *firstNumber,char *secondNumber,char operator);
 void calculateMinusAnswer(char *answerMinus,char const *secondNumber, int diff);
 void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,int diff, char operator);
 
+void multi(char *firstNumber,char *secondNumber,char operator);
+void calculateMultiAnswer(int cols,char answerMult[][cols],char *firstNumber,char *secondNumber,char *finalAnswer,int lastPlace);
+void printMultAnswer(int cols,char answerMult[][cols],char *firstNumber,char *secondNumber,char *finalAnswer,int lastPlace,
+                     int lengthFirst, int lengthSecond,char operator);
 int arith() {
 
     //should thos be a function?
@@ -47,260 +51,24 @@ int arith() {
         char secondNumber[SECOND_LIMIT];
         char operator = '.';
 
-        splitToFirstSecondOp(&twoNumbersAndOp[0],&firstNumber[0],&secondNumber[0],&operator);
+        splitToFirstSecondOp(&twoNumbersAndOp[0], &firstNumber[0], &secondNumber[0], &operator);
 
-        switch(operator){
+        switch (operator) {
             case '+':
-                plus(&firstNumber[0],&secondNumber[0],operator);
+                plus(&firstNumber[0], &secondNumber[0], operator);
                 break;
             case '-':
-                minus(&firstNumber[0],&secondNumber[0],operator);
+                minus(&firstNumber[0], &secondNumber[0], operator);
                 break;
             case '*':
-                //multi();
+                multi(&firstNumber[0], &secondNumber[0], operator);
                 break;
-            default: break;
-        }
-
-        if (operator == '+') {
-
-
-        } else if (operator == '-') {
-
-
-        } else { // operator == *
-
-            int lengthFirst = strlen(firstNumber);
-            int lengthSecond = strlen(secondNumber);
-            char answerMult[lengthSecond+1][lengthFirst +2]; // last is used for \0
-
-            int memory = 0;
-
-            int lastPlace = lengthFirst + lengthSecond ;
-
-            //99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999980000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
-            //99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999980000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
-            char finalAnswer [lastPlace+1];
-
-            finalAnswer[lastPlace] = '\0';
-
-            for(int i =0; i<lastPlace;i++){
-                finalAnswer[i]= '0';
-            }
-
-            for (int i = lengthSecond -1; i >= 0; i--) {
-
-                int second = secondNumber[i];
-                for (int j = lengthFirst-1; j >= 0; j--) {
-                    int tempAnswer = (firstNumber[j] - ZERO_INT) * (second - ZERO_INT);
-                    //printf("%d %d \n",(firstNumber[j] - ZERO_INT),(second - ZERO_INT));
-
-
-                    // I handle memory twice )=
-                    int index = lastPlace-1- lengthSecond+1 - lengthFirst+1+i+j;
-                    //printf("index %d\n", index);
-                    finalAnswer[index] +=tempAnswer % 10;
-                    if(finalAnswer[index] >'9' ){
-                        finalAnswer[index]-= 10;
-                        finalAnswer[index-1] +=1;
-                    }
-                    finalAnswer[index-1] += tempAnswer /10;
-                    int back = 1;
-                    while(finalAnswer[index-back] >'9' ){
-                        finalAnswer[index-back]-= 10;
-                        finalAnswer[index-back-1] +=1;
-                        back++;
-                    }
-
-                    tempAnswer += memory;
-                    answerMult[i][j+1] = tempAnswer % 10 + ZERO_INT;
-                    memory = tempAnswer / 10;
-                    //printf("%d\n",tempAnswer);
-
-                    //printf("%s\n",finalAnswer);
-                    //4333*54344
-                    //235472552
-                    //247694762
-
-                    //865626972066137*932325227571703589052759056660
-                    //807045863723765884249181930731354559250322420
-
-                    //86128360238355429915477315*619897519346469395847838386028680569
-                    //53390756857135620581930758802845864836821837523429101300792235
-
-                    //43171474259419373361224801864268585722148180*1274546860662536794379192230320448893
-                    //55024066987516477905176240509111638094896888379559369190611653313979389862964740
-
-                }
-                answerMult[i][lengthFirst+1] ='\0';
-                answerMult[i][0] = memory + ZERO_INT;
-                memory =0;
-            }
-
-            int leadingZeros = 0;
-            for(int i =0; i< strlen(finalAnswer)-1; i++ ){
-                if(finalAnswer[i] == '0'){
-                    leadingZeros++;
-                }
-                else{
-                    break;
-                }
-            }
-
-            // all singular line up, and tenth and so on.
-            //size-1 is the place of singular?
-
-            int size = strlen(finalAnswer) - leadingZeros;
-            if(size < strlen(secondNumber)+1){
-                size = strlen(secondNumber)+1;
-            }
-
-            //printf("%d  %s",size, answerMult[0]);
-
-
-            //printf("answer start\n\n %s \n %s\n", answerMult[0], answerMult[lengthSecond-1]);
-
-            //the first row under the dashes
-            int spaceFirstRow = size - strlen(answerMult[lengthSecond-1]);
-            //checking leading zeros.
-            int firstRowLeadingZeros = 1;
-            int lengthFirstRow = 0;
-            for(int i = 0;i<strlen(answerMult[lengthSecond-1]);i++){
-                if(firstRowLeadingZeros){
-                    if(answerMult[lengthSecond-1][i] == '0'){
-                        spaceFirstRow++;
-                    }
-                    else{
-                        firstRowLeadingZeros = 0;
-                        lengthFirstRow++;
-                    }
-                }
-                else{
-                    lengthFirstRow++;
-                }
-            }
-
-            //if all zeroes we still should print one zero
-            if(firstRowLeadingZeros){
-                spaceFirstRow--;
-                lengthFirstRow++;
-            }
-
-            int spaceSecondNumber = size - strlen(secondNumber)-1;
-            int spaceDashes;
-            int dashes;
-            //this is not correct, it is also deteremend by first row under -----
-            if(lengthFirstRow > strlen(secondNumber) +1){
-                spaceDashes = spaceFirstRow;
-                dashes = lengthFirstRow;
-
-            }else{
-                spaceDashes = spaceSecondNumber;
-                dashes = strlen(secondNumber)+1;
-            }
-
-            int spaceFirstNumber = size - strlen(firstNumber);;
-            while(spaceFirstNumber-- > 0){
-                printf(" ");
-            }
-            printf("%s\n",firstNumber);
-
-
-            while(spaceSecondNumber-- >0){
-                printf(" ");
-            }
-            printf("%c%s\n",operator,secondNumber);
-
-            while(spaceDashes-- >0){
-                printf(" ");
-            }
-            while(dashes--){
-                printf("-");
-            }
-            printf("\n");
-
-            //printf("%d\n",size);
-            int sizeForAnswer = size;
-            for (int i = lengthSecond-1; i >= 0; i--) {
-                int tempSize = size;
-                tempSize-= strlen(answerMult[i]);
-                int onlyZeros = 1;
-                for(int k = 0; k<strlen(answerMult[i]);k++){
-                    if(answerMult[i][k] == '0'){
-                        tempSize++;
-                    }
-                    else{
-                        onlyZeros =0;
-                        break;
-                    }
-                }
-                if(onlyZeros){ // leaves room for 0
-                    tempSize--;
-                }
-                //printf("%d %d\n", size, tempSize);
-                //printf("%s\n",answerMult[i]);
-                while(tempSize-- > 0){
-                    printf(" ");
-                }
-                size--;
-
-                int ignoreZero = 1;
-                for (int j = 0; j < lengthFirst+1; j++) {
-
-                    if(ignoreZero){
-                        if(answerMult[i][j] != '0'){
-                            ignoreZero = 0;
-                            printf("%c", answerMult[i][j]);
-                        }
-                        else{
-                            //the && i!=0 is to fix the last one in:
-                            //43171474259419373361224801864268585722148180*1274546860662536794379192230320448893
-                            //55024066987516477905176240509111638094896888379559369190611653313979389862964740
-                            if(j!=lengthFirst && i!=0 ){
-                                //printf(" ");
-                            }
-
-                        }
-                    } else {
-                        printf("%c", answerMult[i][j]);
-                    }
-
-                    //printf("%c", answerMult[i][j]);
-
-                }
-
-                if(ignoreZero){ // all zeros
-                    printf("0");
-                }
-                printf("\n");
-            }
-
-            //if second number only is 1 digit answer is dublicate
-            if(strlen(secondNumber)>1){
-                sizeForAnswer-=(strlen(finalAnswer) - leadingZeros);
-                int sizeForAnswersSpaces = sizeForAnswer;
-                while(sizeForAnswersSpaces-->0){
-                    printf(" ");
-                }
-
-                for(int i=leadingZeros;i < strlen(finalAnswer);i++ ){
-                    printf("-");
-                }
-                printf("\n");
-
-                while(sizeForAnswer-->0){
-                    printf(" ");
-                }
-
-                for(int i=leadingZeros;i < strlen(finalAnswer);i++ ){
-                    printf("%c",finalAnswer[i]);
-                }
-                printf("\n");
-            }
-
+            default:
+                break;
         }
 
     }
+
 
     return 0;
 }
@@ -441,6 +209,7 @@ void minus(char *firstNumber,char *secondNumber,char operator){
     answerMinus[answerCounter + 1] = '\0';
 
     int diff = firstCounter - secondCounter;
+
     calculateMinusAnswer(&answerMinus[0],&secondNumber[0],diff);
 
     printMinusAnswer(&answerMinus[0],&firstNumber[0],&secondNumber[0],diff,operator);
@@ -468,7 +237,7 @@ void calculateMinusAnswer(char *answerMinus,char const *secondNumber, int diff){
 
     }
 }
-//should I create printFirst, print opSecond, printAnswer?
+//should I create printFirst, print opSecond, printDashes, printAnswer?
 void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,int diff,char operator){
     // first can only be one less
     if (strlen(firstNumber) == strlen(secondNumber)) {
@@ -489,7 +258,6 @@ void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,in
     for(int i = 0; i< strlen(answerMinus);i++ ){
         if (answerMinus[i] == '0'){
             answerLength--;
-
         }
         else{
             minusAnswerLeadingZeros = 0;
@@ -501,8 +269,8 @@ void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,in
         answerLength++;
     }
 
-    int lengthMinus =
-            answerLength > (strlen(secondNumber) + 1) ? answerLength : (int) (strlen(secondNumber) + 1);
+    int lengthMinus = answerLength > (strlen(secondNumber) + 1) ?
+                        answerLength : (int) (strlen(secondNumber) + 1);
     int diff2 = (int) (lengthMinus - strlen(answerMinus)) ;
 
     int spaceDashes = (int) (strlen(firstNumber)- lengthMinus);
@@ -515,7 +283,6 @@ void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,in
     }
     printf("\n");
 
-    //printf("diff2:  %d ",diff2);
     while (diff2-- > 0) {
         printf(" ");
     }
@@ -534,4 +301,199 @@ void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,in
         }
     }
     printf("\n");
+}
+
+void multi(char *firstNumber,char *secondNumber,char operator) {
+    int lengthFirst = (int)strlen(firstNumber);
+    int lengthSecond = (int) strlen(secondNumber);
+    char answerMult[lengthSecond + 1][lengthFirst + 2]; // last is used for \0
+    int lastPlace = lengthFirst + lengthSecond;
+    char finalAnswer[lastPlace + 1];
+
+    finalAnswer[lastPlace] = '\0';
+
+    for (int i = 0; i < lastPlace; i++) {
+        finalAnswer[i] = '0';
+    }
+
+    calculateMultiAnswer(lengthFirst+2,&answerMult[0],&firstNumber[0],&secondNumber[0],&finalAnswer[0],lastPlace);
+
+    printMultAnswer(lengthFirst+2,&answerMult[0],&firstNumber[0],&secondNumber[0],&finalAnswer[0],lastPlace,
+    lengthFirst, lengthSecond,operator);
+}
+
+//https://stackoverflow.com/questions/14450123/c-pointer-to-a-matrix
+void calculateMultiAnswer(int cols,char answerMult[][cols],char *firstNumber,char *secondNumber,char *finalAnswer,int lastPlace){
+    int memory = 0;
+    int lengthFirst = (int)strlen(firstNumber);
+    int lengthSecond = (int) strlen(secondNumber);
+
+    for (int i = lengthSecond - 1; i >= 0; i--) {
+
+        int second = secondNumber[i];
+        for (int j = lengthFirst - 1; j >= 0; j--) {
+            int tempAnswer = (firstNumber[j] - ZERO_INT) * (second - ZERO_INT);
+
+            int index = lastPlace - 1 - lengthSecond + 1 - lengthFirst + 1 + i + j;
+            finalAnswer[index] += tempAnswer % 10;
+            if (finalAnswer[index] > '9') {
+                finalAnswer[index] -= 10;
+                finalAnswer[index - 1] += 1;
+            }
+            finalAnswer[index - 1] += tempAnswer / 10;
+            int back = 1;
+
+            while (finalAnswer[index - back] > '9') {
+                finalAnswer[index - back] -= 10;
+                finalAnswer[index - back - 1] += 1;
+                back++;
+            }
+
+            tempAnswer += memory;
+            answerMult[i][j + 1] = (char) (tempAnswer % 10 + ZERO_INT);
+            memory = tempAnswer / 10;
+
+        }
+        answerMult[i][lengthFirst + 1] = '\0';
+        answerMult[i][0] = (char) (memory + ZERO_INT);
+        memory = 0;
+    }
+}
+
+//this one must be sliced into smaller functions!
+void printMultAnswer(int cols,char answerMult[][cols],char *firstNumber,char *secondNumber,char *finalAnswer,int lastPlace,
+                    int lengthFirst, int lengthSecond,char operator){
+    int leadingZeros = 0;
+    for (int i = 0; i < strlen(finalAnswer) - 1; i++) {
+        if (finalAnswer[i] == '0') {
+            leadingZeros++;
+        } else {
+            break;
+        }
+    }
+
+    int size =(int) (strlen(finalAnswer) - leadingZeros);
+    if (size < strlen(secondNumber) + 1) {
+        size = (int) strlen(secondNumber) + 1;
+    }
+
+    int spaceFirstRow = (int) ( size - strlen(answerMult[lengthSecond - 1]) );
+    //checking leading zeros.
+    int firstRowLeadingZeros = 1;
+    int lengthFirstRow = 0;
+    for (int i = 0; i < strlen(answerMult[lengthSecond - 1]); i++) {
+        if (firstRowLeadingZeros) {
+            if (answerMult[lengthSecond - 1][i] == '0') {
+                spaceFirstRow++;
+            } else {
+                firstRowLeadingZeros = 0;
+                lengthFirstRow++;
+            }
+        } else {
+            lengthFirstRow++;
+        }
+    }
+
+    //if all zeroes we still should print one zero
+    if (firstRowLeadingZeros) {
+        spaceFirstRow--;
+        lengthFirstRow++;
+    }
+
+    int spaceSecondNumber = (int) ( size - strlen(secondNumber) - 1);
+    int spaceDashes;
+    int dashes;
+    //this is not correct, it is also deteremend by first row under -----
+    if (lengthFirstRow > strlen(secondNumber) + 1) {
+        spaceDashes = spaceFirstRow;
+        dashes = lengthFirstRow;
+
+    } else {
+        spaceDashes = spaceSecondNumber;
+        dashes = (int) (strlen(secondNumber) + 1);
+    }
+
+    int spaceFirstNumber = (int) (size - strlen(firstNumber));
+    while (spaceFirstNumber-- > 0) {
+        printf(" ");
+    }
+    printf("%s\n", firstNumber);
+
+
+    while (spaceSecondNumber-- > 0) {
+        printf(" ");
+    }
+    printf("%c%s\n", operator, secondNumber);
+
+    while (spaceDashes-- > 0) {
+        printf(" ");
+    }
+    while (dashes--) {
+        printf("-");
+    }
+    printf("\n");
+
+    int sizeForAnswer = size;
+    for (int i = lengthSecond - 1; i >= 0; i--) {
+        int tempSize = size;
+        tempSize -= strlen(answerMult[i]);
+        int onlyZeros = 1;
+        for (int k = 0; k < strlen(answerMult[i]); k++) {
+            if (answerMult[i][k] == '0') {
+                tempSize++;
+            } else {
+                onlyZeros = 0;
+                break;
+            }
+        }
+        if (onlyZeros) { // leaves room for 0
+            tempSize--;
+        }
+
+        while (tempSize-- > 0) {
+            printf(" ");
+        }
+        size--;
+
+        int ignoreZero = 1;
+        for (int j = 0; j < lengthFirst + 1; j++) {
+
+            if (ignoreZero) {
+                if (answerMult[i][j] != '0') {
+                    ignoreZero = 0;
+                    printf("%c", answerMult[i][j]);
+                }
+            } else {
+                printf("%c", answerMult[i][j]);
+            }
+        }
+
+        if (ignoreZero) { // all zeros
+            printf("0");
+        }
+        printf("\n");
+    }
+
+    //if second number only is 1 digit answer is dublicate
+    if (strlen(secondNumber) > 1) {
+        sizeForAnswer -= (strlen(finalAnswer) - leadingZeros);
+        int sizeForAnswersSpaces = sizeForAnswer;
+        while (sizeForAnswersSpaces-- > 0) {
+            printf(" ");
+        }
+
+        for (int i = leadingZeros; i < strlen(finalAnswer); i++) {
+            printf("-");
+        }
+        printf("\n");
+
+        while (sizeForAnswer-- > 0) {
+            printf(" ");
+        }
+
+        for (int i = leadingZeros; i < strlen(finalAnswer); i++) {
+            printf("%c", finalAnswer[i]);
+        }
+        printf("\n");
+    }
 }
