@@ -3,7 +3,7 @@
 //
 
 //maybe not the quickest way, but I wanted to train on linked list and malloc
-
+// another way is to move everything two steps everytime we encounter space
 #include <memory.h>
 #include <malloc.h>
 
@@ -15,7 +15,7 @@ struct linkedList{
 
 };
 
-void url(){
+void url1(){
     char word[500];
     printf("Enter word 1:\n");
     fgets(word,500,stdin);
@@ -40,13 +40,15 @@ void url(){
             linkedList *new1 = malloc(sizeof(linkedList));
             linkedList *new2 = malloc(sizeof(linkedList));
 
+            pFirst->c = '%';
+
             new1->c = '2';
             new1->next = new2;
 
             new2->c = '0';
             new2->next = pFirst->next;
 
-            pFirst->c = '%';
+
             pFirst->next = new1;
 
         }
@@ -67,5 +69,32 @@ void url(){
         pFirst =pFirst->next;
         free(temp);
     }
+
+}
+//inspiration
+//https://codedost.com/c/arraypointers-in-c/c-program-insert-element-array/
+void url2(){
+    char word[500];
+    printf("Enter word 1:\n");
+    fgets(word,500,stdin);
+
+    int wordCounter = strlen(word)+1;
+    for(int i=0;i<wordCounter;i++){
+        if(word[i]== ' '){
+            word[i] = '%';
+
+            //moves from the back
+            for(int j = wordCounter;j>i;j--){
+                word[j+2] =word[j];
+            }
+            wordCounter+=2;
+            word[i+1] = '2';
+            word[i+2] = '0';
+        }
+        if(wordCounter>500){
+            break;
+        }
+    }
+    printf("%s",word);
 
 }
