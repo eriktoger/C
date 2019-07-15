@@ -302,7 +302,10 @@ void printMinusAnswer(char *answerMinus,char *firstNumber, char *secondNumber,in
     }
     printf("\n");
 }
-
+// should I rework multi?
+// Karatsuba algorithm
+// and just calc 0-9 * firstnumber and print them
+//and thus seperate answer and printed steps?
 void multi(char *firstNumber,char *secondNumber,char operator) {
     int lengthFirst = (int)strlen(firstNumber);
     int lengthSecond = (int) strlen(secondNumber);
@@ -363,7 +366,9 @@ void calculateMultiAnswer(int cols,char answerMult[][cols],char *firstNumber,cha
 //this one must be sliced into smaller functions!
 void printMultAnswer(int cols,char answerMult[][cols],char *firstNumber,char *secondNumber,char *finalAnswer,int lastPlace,
                     int lengthFirst, int lengthSecond,char operator){
+
     int leadingZeros = 0;
+    //this should be a function.
     for (int i = 0; i < strlen(finalAnswer) - 1; i++) {
         if (finalAnswer[i] == '0') {
             leadingZeros++;
