@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "ARITH.c"
+#include "CtCI_1.3_URLify.c"
 int main() {
 
-    arith();
+    url();
     return 0;
 }
