@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "CtCI_1.3_URLify.c"
+#include "utils/functions.h"
 int main() {
 
     url2();

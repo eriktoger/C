@@ -2,7 +2,7 @@
 // https://www.spoj.com/problems/FCTRL
 //
 #include <memory.h>
-
+#include <stdio.h>
 // I needed  to trim off all comments to get under 2000 bytes for the problem
 void fctrl2(){
 

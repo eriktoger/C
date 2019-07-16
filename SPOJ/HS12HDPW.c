@@ -3,6 +3,7 @@
 // but i should also solve it with shifting?
 
 #include <string.h>
+#include <stdio.h>
 //qwe345 rf3Arg
 //XSBSRasdew9873465hkldsfsalndfvnfq489uqovkLKJHaeDaae555Sk5asdpASD
 void decToBinary(int n,int *binary);

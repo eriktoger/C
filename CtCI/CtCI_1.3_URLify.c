@@ -6,6 +6,7 @@
 // another way is to move everything two steps everytime we encounter space
 #include <memory.h>
 #include <malloc.h>
+#include <stdio.h>
 
 typedef struct linkedList linkedList;
 struct linkedList{

@@ -6,6 +6,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdio.h>
 int hasGreaterPrecedence(char current, char onStack);
 void onp(){
     int testCases;

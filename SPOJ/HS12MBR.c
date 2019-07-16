@@ -1,7 +1,7 @@
 //
 // https://www.spoj.com/problems/HS12MBR/
 //
-
+#include <stdio.h>
 struct Coordinates {
     int xMin;
     int xMax;

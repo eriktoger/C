@@ -2,6 +2,7 @@
 // https://www.spoj.com/problems/STRHH/
 //
 #include <string.h>
+#include <stdio.h>
 void strhh(){
 
     int testCases;
@@ -9,7 +10,7 @@ void strhh(){
 
     while(testCases--){
         char word[200];
-        scanf("%s",&word);
+        scanf("%s",word);
         //printf("Your string: %s\n", word);
         unsigned len = strlen(word) / 2;
         //printf("Your string: %s\n", word);

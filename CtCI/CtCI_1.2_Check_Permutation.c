@@ -3,12 +3,9 @@
 //
 
 #include <memory.h>
-
+#include <stdio.h>
+#include "../utils/oftenUsedFunctions.h"
 //using quickSort
-
-void quickSort(char *word,int low,int high);
-int partition(char *word,int low,int high);
-void swap(char *a,char *b);
 
 void checkPermutation1(){
     char word1[500];
@@ -46,37 +43,7 @@ void checkPermutation1(){
 
 }
 
-void quickSort(char *word,int low,int high){
 
-    if(low<high){
-
-        int part = partition(word,low,high);
-
-        quickSort(word,low,part-1);
-        quickSort(word,part+1,high);
-    }
-}
-
-int partition(char *word,int low,int high){
-
-    int j =low;
-    for(;j<high;j++){
-
-        if(word[j]<word[high]){
-            swap(&word[low],&word[j]);
-            low++;
-        }
-    }
-
-    swap(&word[low],&word[high]);
-    return low;
-}
-
-void swap(char *a,char *b){
-    char temp = *a;
-    *a = *b;
-    *b = temp;
-}
 
 
 //counting chars

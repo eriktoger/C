@@ -3,7 +3,8 @@
 // What if you cannot use additional data structures?
 
 #include <memory.h>
-
+#include <stdio.h>
+#include "../utils/oftenUsedFunctions.h"
 //with extra data stuctures
 void isUnique1(){
 
@@ -35,15 +36,11 @@ void isUnique1(){
 // with out extra data structures
 //quicksort!
 
-void quicksort(char *word, int low, int high);
-int parition(char *word, int low, int high);
-void swap ( char *a, char *b);
-
 void isUnique2(){
     char word[128];
     scanf("%s",word);
 
-    quicksort(word,0,strlen(word)-1);
+    quickSort(word,0,strlen(word)-1);
     //printf("\n%s\n",word);
     char last = word[0];
     int isUnique =1;
@@ -63,7 +60,7 @@ void isUnique2(){
     }
 
 }
-
+/*
 void quicksort(char *word, int low, int high){
 
     if(low < high){
@@ -97,3 +94,4 @@ void swap ( char *a, char *b){
     *b = temp;
 }
 
+*/

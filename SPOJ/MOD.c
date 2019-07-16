@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 //
 // https://www.spoj.com/problems/BUET19A/
 //
