@@ -1,7 +1,7 @@
 //
 // Created by erik on 2019-07-16.
 //
-#include "utils/oftenUsedFunctions.h"
+#include "oftenUsedFunctions.h"
 
 void quickSort(char *word,int low,int high){
 

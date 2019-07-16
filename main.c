@@ -2,6 +2,6 @@
 #include "utils/functions.h"
 int main() {
 
-    url2();
+    isUnique1();
     return 0;
 }
