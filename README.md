@@ -1,5 +1,8 @@
 # C
-Just some problems from https://www.spoj.com/
+Just some problems from https://www.spoj.com/ and Cracking the Code interview
 
 Every problem is in its own file. 
-Just include the file name in name and call the function.
+Some functions that appear alot, like quicksort and swap is stored
+in oftenUsedFunctions
+
+All problems share one header called functions.h
