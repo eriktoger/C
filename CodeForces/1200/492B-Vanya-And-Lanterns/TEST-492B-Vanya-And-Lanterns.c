@@ -1,8 +1,7 @@
-/* file minunit_example.c */
-
 #include "../../../minunit.h"
 #include "492B-Vanya-And-Lanterns.h"
-#include <stdio.h>
+#include "stdio.h"
+#include <stdlib.h>
 
 int tests_run = 0;
 
@@ -20,14 +19,14 @@ static char *test_one() {
 static char *test_two() {
   int lanters[] = {2, 5};
   qsort(lanters, 2, sizeof(int), compare);
-  double answer = getxDistance(2, lanters, 5);
+  double answer = getDistance(2, lanters, 5);
   mu_assert("error, answer != 2.0", answer == 2.0);
   return 0;
 }
 
 static char *all_tests() {
   mu_run_test(test_one);
-  mu_run_test(test_bar);
+  mu_run_test(test_two);
   return 0;
 }
 
