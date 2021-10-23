@@ -1,10 +1,9 @@
 #!/bin/sh
 
-DIR="CodeForces/1200"
-PROBLEM="466A-Cheap-travel"
+DIR="CodeForces/1300" # this dir needs to exits
+PROBLEM="451B-Sort-The-Array"
 
-cd CodeForces
-cd 1200
+cd ${DIR}
 mkdir ${PROBLEM}
 cd ${PROBLEM}
 touch ${PROBLEM}.c
