@@ -9,5 +9,5 @@ struct Answer {
   int startIndex;
   int endIndex;
 };
-struct Answer canBeSorted(int *array, int arrayLength);
+struct Answer canBeSorted(int *array, int *indexOutOfPlace, int arraySize);
 #endif // C_451B_SORT_THE_ARRAY_H

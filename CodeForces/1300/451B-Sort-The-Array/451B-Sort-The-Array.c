@@ -1,11 +1,11 @@
 #include "451B-Sort-The-Array.h"
 
-struct Answer canBeSorted(int *array, int arrayLength) {
-  int indexOutOfPlace[10000] = {0};
+struct Answer canBeSorted(int *array, int *indexOutOfPlace, int arraySize) {
+
   int outOfPlaceCounter = 0;
   struct Answer cannotBeSorted = {"no", 0, 0};
-  for (int i = 1; i < arrayLength; i++) {
 
+  for (int i = 1; i < arraySize; i++) {
     if (array[i] < array[i - 1]) {
       if (outOfPlaceCounter == 0) {
         indexOutOfPlace[outOfPlaceCounter] = i - 1;
@@ -33,14 +33,14 @@ struct Answer canBeSorted(int *array, int arrayLength) {
   int outOfPlaceLength = outOfPlaceCounter - 1;
   int lastIndex = indexOutOfPlace[outOfPlaceLength];
   outOfPlaceCounter = 0;
-
   int prev = 0;
   int isSorted = 1;
 
-  for (int i = 0; i < arrayLength; i++) {
+  for (int i = 0; i < arraySize; i++) {
     int current;
-    if (i == indexOutOfPlace[outOfPlaceCounter]) {
-      current = array[indexOutOfPlace[outOfPlaceLength - outOfPlaceCounter]];
+    int reverseIdx = outOfPlaceLength - outOfPlaceCounter;
+    if (reverseIdx >= 0 && i == indexOutOfPlace[outOfPlaceCounter]) {
+      current = array[indexOutOfPlace[reverseIdx]];
       outOfPlaceCounter++;
     } else {
       current = array[i];
